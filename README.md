@@ -1,0 +1,2 @@
+# arduino_project_motor_control_via_serial_monitor
+Controlling motor using arduino via serial monitor
