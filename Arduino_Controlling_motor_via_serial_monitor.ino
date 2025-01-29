@@ -1,12 +1,13 @@
 #define RELAY_PIN 8
-#define LED_PIN 13
+#define GREEN_LED 13
 #define BUZZER_PIN 7
+#define RED_LED 12
 
 bool systemOnline = false; // System state
 
 void setup() {
     pinMode(RELAY_PIN, OUTPUT);
-    pinMode(LED_PIN, OUTPUT);
+    pinMode(GREEN_LED, OUTPUT);
     pinMode(BUZZER_PIN, OUTPUT);
     digitalWrite(RELAY_PIN,HIGH);
     Serial.begin(9600);
@@ -20,9 +21,11 @@ void loop() {
         if (command == "ON") {
             Serial.println("System Initializing...");
             digitalWrite(BUZZER_PIN, HIGH);
+            digitalWrite(RED_LED,HIGH);
             delay(3000);
             digitalWrite(BUZZER_PIN, LOW);
-            digitalWrite(LED_PIN, HIGH);
+            digitalWrite(RED_LED,LOW);
+            digitalWrite(GREEN_LED, HIGH);
             systemOnline = true; // System is now online
             Serial.println("System Online");
         } 
@@ -36,6 +39,11 @@ void loop() {
                 Serial.println("Motor is ON");
             } else {
                 Serial.println("System is Offline. Turn it ON first.");
+                digitalWrite(BUZZER_PIN, HIGH);
+                digitalWrite(RED_LED,HIGH);
+                delay(300);
+                digitalWrite(BUZZER_PIN, LOW);
+                digitalWrite(RED_LED,LOW);
             }
         } 
         else if (command == "MOTOR OFF") {
@@ -43,29 +51,44 @@ void loop() {
                 Serial.println("Turning Off Motor...");
                 digitalWrite(RELAY_PIN, HIGH);
                 digitalWrite(BUZZER_PIN, HIGH);
-                delay(500);
+                delay(700);
                 digitalWrite(BUZZER_PIN, LOW);
                 Serial.println("Motor is OFF");
             } else {
                 Serial.println("System is Offline. Turn it ON first.");
+                digitalWrite(BUZZER_PIN, HIGH);
+                digitalWrite(RED_LED,HIGH);
+                delay(300);
+                digitalWrite(BUZZER_PIN, LOW);
+                digitalWrite(RED_LED,LOW);
             }
         } 
         else if (command == "OFF") {
             if (systemOnline) {
                 Serial.println("Shutting Down...");
                 digitalWrite(BUZZER_PIN, HIGH);
-                delay(3000);
-                digitalWrite(BUZZER_PIN, LOW);
+                delay(700);
                 digitalWrite(RELAY_PIN, HIGH);
-                digitalWrite(LED_PIN, LOW);
+                digitalWrite(BUZZER_PIN, LOW);
+                digitalWrite(GREEN_LED, LOW);
                 systemOnline = false; // System is now offline
                 Serial.println("System Offline");
             } else {
                 Serial.println("System is already OFF");
+                digitalWrite(RED_LED,HIGH);
+                digitalWrite(BUZZER_PIN, HIGH);
+                delay(300);
+                digitalWrite(RED_LED,LOW);
+                digitalWrite(BUZZER_PIN, LOW);
             }
         } 
         else {
             Serial.println("Invalid Command");
+            digitalWrite(BUZZER_PIN, HIGH);
+            digitalWrite(RED_LED,HIGH);
+            delay(300);
+            digitalWrite(BUZZER_PIN, LOW);
+            digitalWrite(RED_LED,LOW);
         }
     }
 }
