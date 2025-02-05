@@ -20,10 +20,23 @@ void loop() {
 
         if (command == "ON") {
             Serial.println("System Initializing...");
-            digitalWrite(BUZZER_PIN, HIGH);
             digitalWrite(RED_LED,HIGH);
-            delay(3000);
+            digitalWrite(BUZZER_PIN, HIGH);
+            delay(2000);
             digitalWrite(BUZZER_PIN, LOW);
+                //  STARTING BEEP AS A STARTUP SIGNAL
+
+            delay(500);
+            digitalWrite(BUZZER_PIN, HIGH);
+            delay(100);
+            digitalWrite(BUZZER_PIN, LOW);
+            delay(100);
+            digitalWrite(BUZZER_PIN, HIGH);
+            delay(100);
+            digitalWrite(BUZZER_PIN, LOW);
+
+                // //  ENDING BEEP AS A STARTUP SIGNAL
+
             digitalWrite(RED_LED,LOW);
             digitalWrite(GREEN_LED, HIGH);
             systemOnline = true; // System is now online
@@ -51,7 +64,12 @@ void loop() {
                 Serial.println("Turning Off Motor...");
                 digitalWrite(RELAY_PIN, HIGH);
                 digitalWrite(BUZZER_PIN, HIGH);
-                delay(700);
+                delay(100);
+                digitalWrite(BUZZER_PIN, LOW);
+                delay(100);
+                digitalWrite(BUZZER_PIN, HIGH);
+                delay(100);
+                digitalWrite(GREEN_LED, LOW);
                 digitalWrite(BUZZER_PIN, LOW);
                 Serial.println("Motor is OFF");
             } else {
@@ -66,11 +84,20 @@ void loop() {
         else if (command == "OFF") {
             if (systemOnline) {
                 Serial.println("Shutting Down...");
-                digitalWrite(BUZZER_PIN, HIGH);
-                delay(700);
+                
+                digitalWrite(RED_LED,HIGH);
+                // delay(700);
                 digitalWrite(RELAY_PIN, HIGH);
+                digitalWrite(BUZZER_PIN, HIGH);
+                delay(100);
                 digitalWrite(BUZZER_PIN, LOW);
+                delay(100);
+                digitalWrite(BUZZER_PIN, HIGH);
+                delay(100);
                 digitalWrite(GREEN_LED, LOW);
+                // delay(3000);
+                digitalWrite(BUZZER_PIN, LOW);
+                digitalWrite(RED_LED,LOW);
                 systemOnline = false; // System is now offline
                 Serial.println("System Offline");
             } else {
